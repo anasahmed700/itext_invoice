@@ -1,10 +1,25 @@
 package com.itextpdf.first_invoice;
 
+import java.util.ArrayList;
+
 public class InvoiceData {
 
-    private String invoice_to, date, invoice_num, region, serial_no, customer_name, city, tour, remarks,
-            total_payable, business_amount, scheme_payment_amount, encashOrExcess_amount;
-//    private int total_payable, business_amount, scheme_payment_amount, encashOrExcess_amount;
+    private String invoice_to, date, invoice_num, region, 
+            total_payable, totalAmount, totalEncash, totalExcess;
+    
+    
+    private ArrayList<InvoiceDetail> listOfDetail;
+
+    public ArrayList<InvoiceDetail> getListOfDetail() {
+        return listOfDetail;
+    }
+
+    public void setListOfDetail(ArrayList<InvoiceDetail> listOfDetail) {
+        this.listOfDetail = listOfDetail;
+    }
+    
+    
+    
 
     public String getInvoice_to() {
         return invoice_to;
@@ -38,45 +53,6 @@ public class InvoiceData {
         this.region = region;
     }
 
-    public String getSerial_no() {
-        return serial_no;
-    }
-
-    public void setSerial_no(String serial_no) {
-        this.serial_no = serial_no;
-    }
-
-    public String getCustomer_name() {
-        return customer_name;
-    }
-
-    public void setCustomer_name(String customer_name) {
-        this.customer_name = customer_name;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getTour() {
-        return tour;
-    }
-
-    public void setTour(String tour) {
-        this.tour = tour;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
 
     public String getTotal_payable() {
         return total_payable;
@@ -86,29 +62,30 @@ public class InvoiceData {
         this.total_payable = total_payable;
     }
 
-    public String getBusiness_amount() {
-        return business_amount;
+    public String getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setBusiness_amount(String business_amount) {
-        this.business_amount = business_amount;
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
-    public String getScheme_payment_amount() {
-        return scheme_payment_amount;
+    public String getTotalEncash() {
+        return totalEncash;
     }
 
-    public void setScheme_payment_amount(String scheme_payment_amount) {
-        this.scheme_payment_amount = scheme_payment_amount;
+    public void setTotalEncash(String totalEncash) {
+        this.totalEncash = totalEncash;
     }
 
-    public String getEncashOrExcess_amount() {
-        return encashOrExcess_amount;
+    public String getTotalExcess() {
+        return totalExcess;
     }
 
-    public void setEncashOrExcess_amount(String encashOrExcess_amount) {
-        this.encashOrExcess_amount = encashOrExcess_amount;
+    public void setTotalExcess(String totalExcess) {
+        this.totalExcess = totalExcess;
     }
+
 
    
 }
