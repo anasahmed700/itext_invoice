@@ -119,7 +119,7 @@ public class Invoice {
             table.setWidthPercentage(160 / 1.6f);
             table.addCell(cell);
 
-            // Firs table for date, region & invoice number
+            // First table for date, region & invoice number
             PdfPTable table1 = new PdfPTable(2);
             table1.setWidths(new float[]{1, 1.2f});
             table1.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -143,9 +143,7 @@ public class Invoice {
             PdfPTable table2 = new PdfPTable(1);
             table2.setHorizontalAlignment(Element.ALIGN_LEFT);
             table2.setWidthPercentage(160 / 6.5f);
-            PdfPCell cell2 = new PdfPCell(new Phrase("INVOICE TO", FontFactory.getFont(FontFactory.COURIER, 10, BaseColor.WHITE)));
-            cell2.setBackgroundColor(BaseColor.BLACK);
-            table2.addCell(cell2);
+            headerCell(table2, "INVOICE TO",'L');
             table2.addCell(new Phrase(data.getInvoice_to(), FontFactory.getFont(FontFactory.COURIER, 10)));
 
             // Table for records
@@ -153,14 +151,14 @@ public class Invoice {
             table3.setWidths(new float[]{1, 3.5f, 2, 2, 2, 2, 2, 2});
             table3.setWidthPercentage(160 / 1.6f);
             // Table headers
-            headerCell(table3, "S NO");
-            headerCell(table3, "CUSTOMER NAME");
-            headerCell(table3, "CITY");
-            headerCell(table3, "TOUR");
-            headerCell(table3, "BUSINESS AMOUNT");
-            headerCell(table3, "SCHEME PAYMENT AMOUNT");
-            headerCell(table3, "ENCASH/EXCESS AMOUNT");
-            headerCell(table3, "REMARKS");
+            headerCell(table3, "S NO", 'c');
+            headerCell(table3, "CUSTOMER NAME", 'c');
+            headerCell(table3, "CITY", 'c');
+            headerCell(table3, "TOUR",'c');
+            headerCell(table3, "BUSINESS AMOUNT",'c');
+            headerCell(table3, "SCHEME PAYMENT AMOUNT",'c');
+            headerCell(table3, "ENCASH/ EXCESS AMOUNT",'c');
+            headerCell(table3, "REMARKS",'c');
             
             // Table fields
             for (InvoiceDetail obj : data.getListOfDetail()) {
@@ -225,6 +223,11 @@ public class Invoice {
                     FontFactory.getFont(FontFactory.TIMES, 10, Font.BOLDITALIC, BaseColor.BLUE));
             para.setAlignment(Element.ALIGN_CENTER);
             document.add(para);
+            
+            para = new Paragraph("Page 1",
+                    FontFactory.getFont(FontFactory.TIMES, 10, Font.BOLDITALIC, BaseColor.BLACK));
+            para.setAlignment(Element.ALIGN_RIGHT);
+            document.add(para);
 
             document.close();
 
@@ -234,11 +237,22 @@ public class Invoice {
         }
     }
 
-    public PdfPCell headerCell(PdfPTable table, String value) {
-        PdfPCell cell = new PdfPCell(new Phrase(value, FontFactory.getFont(FontFactory.COURIER, 12, BaseColor.WHITE)));
-        cell.setBackgroundColor(BaseColor.BLACK);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+    public PdfPCell headerCell(PdfPTable table, String value, char align){
+        PdfPCell cell = new PdfPCell(new Phrase(value, FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)));
+        cell.setBackgroundColor(BaseColor.GRAY);
+        
+        switch (align) {
+            case 'L':
+                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                break;
+            case 'R':
+                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                break;
+            default:
+                cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                break;
+        }
         return table.addCell(cell);
     }
 
