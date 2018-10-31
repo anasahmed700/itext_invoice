@@ -31,6 +31,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -62,10 +64,11 @@ public class Report {
         try {
             Document document = new Document();
             document.setPageSize(PageSize.A4);
-            document.setMargins(15, 15, 40, 25);
+            document.setMargins(15, 15, 40, 80);
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(result));
-            Report.HeaderTable eventHead = new Report.HeaderTable();
-            writer.setPageEvent(eventHead);
+            HeaderTable event = new HeaderTable();
+            
+            writer.setPageEvent(event);
             
             
             document.open();
@@ -96,7 +99,7 @@ public class Report {
             table1.addCell(cell);
             // setting image file
             Image image = Image.getInstance("resources\\mehran.jpg");
-            image.scaleAbsolute(140, 110);
+            image.scaleAbsolute(180, 150);
             image.setAlignment(Element.ALIGN_CENTER);
             
             // HTML string
@@ -274,18 +277,15 @@ public class Report {
             htmlToString(document, htmlString);
             document.add(pricePara);
             
-            PdfContentByte canvas = writer.getDirectContent();
-            CMYKColor magentaColor = new CMYKColor(0.f, 1.f, 1.f, 0.f);
-            canvas.setColorStroke(magentaColor);
-            canvas.moveTo(document.left(), 80);
-            canvas.lineTo(document.right(), 80);
-            canvas.moveTo(document.left(), 80);
-            canvas.lineTo(document.right(), 80);
-            canvas.closePathStroke();
-            
-
-            document.add(new ElateHeaderFooter().footer());
-            
+//            PdfContentByte canvas = writer.getDirectContent();
+//            CMYKColor magentaColor = new CMYKColor(0.f, 1.f, 1.f, 0.f);
+//            canvas.setColorStroke(magentaColor);
+//            canvas.moveTo(document.left(), 80);
+//            canvas.lineTo(document.right(), 80);
+//            canvas.moveTo(document.left(), 80);
+//            canvas.lineTo(document.right(), 80);
+//            canvas.closePathStroke();
+          
             document.close();
             JOptionPane.showMessageDialog(null, "Report Saved!");
         } catch (FileNotFoundException | DocumentException e) {
@@ -325,7 +325,7 @@ public class Report {
         protected float tableHeight;
         public HeaderTable() throws IOException, BadElementException {
             header = new PdfPTable(1);
-            header.setTotalWidth(523);
+            header.setTotalWidth(565);
             header.setLockedWidth(true);
             Image image = Image.getInstance("resources\\elatelogo.png");
             image.scaleAbsolute(200, 200);
@@ -353,11 +353,31 @@ public class Report {
             return tableHeight;
         }
         @Override
-        public void onEndPage(PdfWriter writer, Document document) {
+        public void onStartPage(PdfWriter writer, Document document) {
             header.writeSelectedRows(0, -1,
                     document.left(),
                     document.top() + ((document.topMargin() + tableHeight) / 3),
                     writer.getDirectContent());
         }
-    }   
+        @Override
+        public void onEndPage(PdfWriter writer, Document document) {
+//            Phrase p = new Phrase();
+            PdfContentByte canvas = writer.getDirectContent();
+            CMYKColor magentaColor = new CMYKColor(0.f, 1.f, 1.f, 0.f);
+            canvas.setColorStroke(magentaColor);
+            canvas.moveTo(document.left(), 80);
+            canvas.lineTo(document.right(), 80);
+            canvas.moveTo(document.left(), 80);
+            canvas.lineTo(document.right(), 80);
+            canvas.closePathStroke();
+            String p = data.getHead_office()+" | Phone:"+data.getHO_phone();
+            String p1 = "Fax:"+data.getFax()+" | Email:"+data.getEmail()+" | Web:"+ data.getWeb();
+            String p2 = data.getBranch_office()+" | Phone:"+data.getBO_phone();
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(p, FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, BaseColor.BLUE)), 300, 65, 0);
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(p1, FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, BaseColor.BLUE)), 300, 50, 0);
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(p2, FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, BaseColor.BLUE)), 300, 35, 0);
+
+        }
+    }  
 }
+

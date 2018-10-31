@@ -26,13 +26,13 @@ import java.io.IOException;
 public class ElateHeaderFooter {
     public PdfPTable header() throws BadElementException, IOException{
         PdfPTable header = new PdfPTable(1);
-        Image image = Image.getInstance("resources\\elatelogo.png");
-        image.scaleAbsolute(150, 120);
+        Image logo = Image.getInstance("resources\\elatelogo.png");
+        logo.scaleAbsolute(150, 120);
         PdfPCell cell = new PdfPCell();           
         cell.setBorder(PdfPCell.BOTTOM);
         cell.setBorderColor(BaseColor.RED);
         Paragraph para = new Paragraph();
-        para.add(new Chunk(image,0,0));
+        para.add(new Chunk(logo,0,0));
         para.add(new Phrase("ELATE C.C (PVT) LTD.",
                 FontFactory.getFont(FontFactory.TIMES_ROMAN, 17, Font.BOLDITALIC, BaseColor.BLUE)));
             
@@ -86,8 +86,10 @@ public class ElateHeaderFooter {
             footCell.setVerticalAlignment(Element.ALIGN_BOTTOM);
             footer.addCell(footCell);
             footer.setWidthPercentage(100);
-            footer.setExtendLastRow(true);
+//            footer.setExtendLastRow(true);
             footer.setSpacingBefore(178);
+            footer.setPaddingTop(100);
+            
             return footer;
     }
 }
