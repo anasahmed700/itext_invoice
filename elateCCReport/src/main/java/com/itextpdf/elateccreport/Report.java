@@ -11,28 +11,19 @@ import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.html.simpleparser.HTMLWorker;
-import com.itextpdf.text.pdf.CMYKColor;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-//import com.itextpdf.text.pdf.draw.DottedLineSeparator;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -44,13 +35,15 @@ public class Report {
     static ReportData data = new ReportData();
     
     public static void main(String[] args) throws BadElementException, IOException {
-        
+        // Setting variables
         data.setCust_selection("CodenCode Software Solution\nKarachi");
         data.setDate("18-sep-2018");
         data.setProduct_code("AEX-001");
         data.setProduct_name("MEHRAN");
         data.setPrice("120,000");
-        data.setHead_office("Head office:Suite No. 1,2,3, ST-3,Block-3,Gulshan-e-Iqbal,Karachi. ");
+        
+        // footer variables
+        data.setHead_office("Head office : Suite No. 1,2,3, ST-3,Block-3,Gulshan-e-Iqbal,Karachi. ");
         data.setHO_phone("+92-21-34817330");
         data.setFax("+92-21-34813768");
         data.setEmail("Info@elategroup.com");
@@ -62,17 +55,15 @@ public class Report {
     
     public void createPdf(String result) throws BadElementException, IOException{
         try {
+            // Setting document
             Document document = new Document();
             document.setPageSize(PageSize.A4);
-            document.setMargins(15, 15, 40, 80);
+            document.setMargins(15, 15, 50, 83);
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(result));
-            HeaderTable event = new HeaderTable();
             
+            // getting header & footer
+            ElateHeaderFooter event = new ElateHeaderFooter();
             writer.setPageEvent(event);
-            
-            
-            document.open();
-            
             
             // Customer info and date table
             PdfPTable custDateTable = new PdfPTable(2);
@@ -91,15 +82,15 @@ public class Report {
                       
             // Subheading
             PdfPTable table1 = new PdfPTable(1);
-            PdfPCell cell = new PdfPCell(new Phrase("Quotation", FontFactory.getFont(FontFactory.TIMES_ROMAN, 20, BaseColor.BLUE)));
+            PdfPCell cell = new PdfPCell(new Phrase("Quotation", FontFactory.getFont(FontFactory.TIMES_ROMAN, 25, BaseColor.BLUE)));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setBorder(PdfPCell.BOTTOM);
             cell.setBorderColor(BaseColor.RED);
-            table1.setWidthPercentage(15);
+            table1.setWidthPercentage(20);
             table1.addCell(cell);
             // setting image file
             Image image = Image.getInstance("resources\\mehran.jpg");
-            image.scaleAbsolute(180, 150);
+            image.scaleAbsolute(200, 170);
             image.setAlignment(Element.ALIGN_CENTER);
             
             // HTML string
@@ -265,26 +256,22 @@ public class Report {
             pricePara.add(new Phrase(data.getPrice()));
             pricePara.setAlignment(Element.ALIGN_RIGHT);
             
-//            document.add(table);
+            document.open();
 //            document.add(new ElateHeaderFooter().header());
             document.add(new Phrase(Chunk.NEWLINE));
             document.add(custDateTable);
+            // adding product info
             document.add(para1);
-//            document.add(p);
             document.add(Chunk.NEWLINE);
+            // adding sub-heading
             document.add(table1);
+            // product image
             document.add(image);
+            // adding HTML to String parser
             htmlToString(document, htmlString);
+            // price tag
             document.add(pricePara);
             
-//            PdfContentByte canvas = writer.getDirectContent();
-//            CMYKColor magentaColor = new CMYKColor(0.f, 1.f, 1.f, 0.f);
-//            canvas.setColorStroke(magentaColor);
-//            canvas.moveTo(document.left(), 80);
-//            canvas.lineTo(document.right(), 80);
-//            canvas.moveTo(document.left(), 80);
-//            canvas.lineTo(document.right(), 80);
-//            canvas.closePathStroke();
           
             document.close();
             JOptionPane.showMessageDialog(null, "Report Saved!");
@@ -317,67 +304,4 @@ public class Report {
             htmlWorker.parse(new StringReader(htmlString));
             return htmlWorker;
     }
-    
-    
-    public class HeaderTable extends PdfPageEventHelper {
-        protected PdfPTable header;
-        protected PdfPTable footer;
-        protected float tableHeight;
-        public HeaderTable() throws IOException, BadElementException {
-            header = new PdfPTable(1);
-            header.setTotalWidth(565);
-            header.setLockedWidth(true);
-            Image image = Image.getInstance("resources\\elatelogo.png");
-            image.scaleAbsolute(200, 200);
-            PdfPCell cell = new PdfPCell();           
-            cell.setBorder(PdfPCell.BOTTOM);
-            cell.setBorderColor(BaseColor.RED);
-            Paragraph para = new Paragraph();
-            para.add(new Chunk(image,0,0));
-            para.add(new Phrase("ELATE C.C (PVT) LTD.",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 22, Font.BOLDITALIC, BaseColor.BLUE)));
-
-            para.setAlignment(Element.ALIGN_CENTER);
-            cell.addElement(para);
-            header.addCell(cell);
-            // Heading Discription
-            cell = new PdfPCell(new Paragraph("DEALS IN MEDICAL EQUIPMENTS & SURGICAL DISPOSABLES",
-                    FontFactory.getFont(FontFactory.COURIER, 8, Font.NORMAL, BaseColor.BLUE)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.setBorder(PdfPCell.NO_BORDER);
-            header.setWidthPercentage(160 / 2.7f);
-            header.addCell(cell);
-            tableHeight = header.getTotalHeight();
-        }
-        public float getTableHeight() {
-            return tableHeight;
-        }
-        @Override
-        public void onStartPage(PdfWriter writer, Document document) {
-            header.writeSelectedRows(0, -1,
-                    document.left(),
-                    document.top() + ((document.topMargin() + tableHeight) / 3),
-                    writer.getDirectContent());
-        }
-        @Override
-        public void onEndPage(PdfWriter writer, Document document) {
-//            Phrase p = new Phrase();
-            PdfContentByte canvas = writer.getDirectContent();
-            CMYKColor magentaColor = new CMYKColor(0.f, 1.f, 1.f, 0.f);
-            canvas.setColorStroke(magentaColor);
-            canvas.moveTo(document.left(), 80);
-            canvas.lineTo(document.right(), 80);
-            canvas.moveTo(document.left(), 80);
-            canvas.lineTo(document.right(), 80);
-            canvas.closePathStroke();
-            String p = data.getHead_office()+" | Phone:"+data.getHO_phone();
-            String p1 = "Fax:"+data.getFax()+" | Email:"+data.getEmail()+" | Web:"+ data.getWeb();
-            String p2 = data.getBranch_office()+" | Phone:"+data.getBO_phone();
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(p, FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, BaseColor.BLUE)), 300, 65, 0);
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(p1, FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, BaseColor.BLUE)), 300, 50, 0);
-            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(p2, FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, BaseColor.BLUE)), 300, 35, 0);
-
-        }
-    }  
 }
-
