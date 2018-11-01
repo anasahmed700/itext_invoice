@@ -30,21 +30,21 @@ public class ElateHeaderFooter extends PdfPageEventHelper {
             header = new PdfPTable(1);
             header.setTotalWidth(565);
             header.setLockedWidth(true);
-            Image image = Image.getInstance("resources\\elatelogo.png");
+            Image image = Image.getInstance(Report.data.getElata_logo());
             image.scaleAbsolute(200, 200);
             PdfPCell cell = new PdfPCell();           
             cell.setBorder(PdfPCell.BOTTOM);
             cell.setBorderColor(BaseColor.RED);
             Paragraph para = new Paragraph();
             para.add(new Chunk(image,0,0));
-            para.add(new Phrase("ELATE C.C (PVT) LTD.",
+            para.add(new Phrase(Report.data.getHeading(),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 22, Font.BOLDITALIC, BaseColor.BLUE)));
 
             para.setAlignment(Element.ALIGN_CENTER);
             cell.addElement(para);
             header.addCell(cell);
             // Heading Discription
-            cell = new PdfPCell(new Paragraph("DEALS IN MEDICAL EQUIPMENTS & SURGICAL DISPOSABLES",
+            cell = new PdfPCell(new Paragraph(Report.data.getHeading_description(),
                     FontFactory.getFont(FontFactory.COURIER, 8, Font.NORMAL, BaseColor.BLUE)));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setBorder(PdfPCell.NO_BORDER);
@@ -56,15 +56,15 @@ public class ElateHeaderFooter extends PdfPageEventHelper {
             footer = new PdfPTable(1);
             footer.setTotalWidth(565);
             footer.setLockedWidth(true);
-            Image locationIcon = Image.getInstance("resources\\location.png");
+            Image locationIcon = Image.getInstance(Report.data.getLocation_icon());
             locationIcon.scaleAbsolute(10, 10);
-            Image phoneIcon = Image.getInstance("resources\\phone.png");
+            Image phoneIcon = Image.getInstance(Report.data.getPhone_icon());
             phoneIcon.scaleAbsolute(10, 10);
-            Image faxIcon = Image.getInstance("resources\\fax.png");
+            Image faxIcon = Image.getInstance(Report.data.getFax_icon());
             faxIcon.scaleAbsolute(10, 10);
-            Image emailIcon = Image.getInstance("resources\\email.png");
+            Image emailIcon = Image.getInstance(Report.data.getEmail_icon());
             emailIcon.scaleAbsolute(10, 10);
-            Image webIcon = Image.getInstance("resources\\web.png");
+            Image webIcon = Image.getInstance(Report.data.getWeb_icon());
             webIcon.scaleAbsolute(10, 10);
 
             PdfPCell footCell = new PdfPCell();           

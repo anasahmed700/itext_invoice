@@ -40,13 +40,24 @@ public class Report {
         data.setDate("18-sep-2018");
         data.setProduct_code("AEX-001");
         data.setProduct_name("MEHRAN");
+        data.setProduct_image("resources\\mehran.jpg");
         data.setPrice("120,000");
         
+        // header variables
+        data.setElata_logo("resources\\elatelogo.png");
+        data.setHeading("ELATE C.C (PVT) LTD.");
+        data.setHeading_description("DEALS IN MEDICAL EQUIPMENTS & SURGICAL DISPOSABLES");
+        
         // footer variables
+        data.setLocation_icon("resources\\location.png");
         data.setHead_office("Head office : Suite No. 1,2,3, ST-3,Block-3,Gulshan-e-Iqbal,Karachi. ");
+        data.setPhone_icon("resources\\phone.png");
         data.setHO_phone("+92-21-34817330");
+        data.setFax_icon("resources\\fax.png");
         data.setFax("+92-21-34813768");
+        data.setEmail_icon("resources\\email.png");
         data.setEmail("Info@elategroup.com");
+        data.setWeb_icon("resources\\web.png");
         data.setWeb("www.elategroup.com");
         data.setBranch_office("Branch office : Suite No. 01 2nd floor Royal Plaza 6th Road Satellite Town, Rawalpindi.");
         data.setBO_phone("+92-51-4848407");
@@ -89,7 +100,7 @@ public class Report {
             table1.setWidthPercentage(20);
             table1.addCell(cell);
             // setting image file
-            Image image = Image.getInstance("resources\\mehran.jpg");
+            Image image = Image.getInstance(data.getProduct_image());
             image.scaleAbsolute(200, 170);
             image.setAlignment(Element.ALIGN_CENTER);
             

@@ -10,8 +10,81 @@ package com.itextpdf.elateccreport;
  * @author Anas
  */
 public class ReportData {
-    private String cust_selection, date, machine, product_name, product_code, price,
-            head_office, HO_phone, fax, email, web, branch_office, BO_phone;
+    private String cust_selection, date, machine, product_name, product_code, product_image, price,
+            heading, heading_description, elata_logo,
+            head_office, location_icon, HO_phone, phone_icon, fax, fax_icon, email, email_icon, web, web_icon, branch_office, BO_phone;
+
+    public String getProduct_image() {
+        return product_image;
+    }
+
+    public void setProduct_image(String product_image) {
+        this.product_image = product_image;
+    }
+
+    public String getElata_logo() {
+        return elata_logo;
+    }
+
+    public void setElata_logo(String elata_logo) {
+        this.elata_logo = elata_logo;
+    }
+
+    public String getLocation_icon() {
+        return location_icon;
+    }
+
+    public void setLocation_icon(String location_icon) {
+        this.location_icon = location_icon;
+    }
+
+    public String getPhone_icon() {
+        return phone_icon;
+    }
+
+    public void setPhone_icon(String phone_icon) {
+        this.phone_icon = phone_icon;
+    }
+
+    public String getFax_icon() {
+        return fax_icon;
+    }
+
+    public void setFax_icon(String fax_icon) {
+        this.fax_icon = fax_icon;
+    }
+
+    public String getEmail_icon() {
+        return email_icon;
+    }
+
+    public void setEmail_icon(String email_icon) {
+        this.email_icon = email_icon;
+    }
+
+    public String getWeb_icon() {
+        return web_icon;
+    }
+
+    public void setWeb_icon(String web_icon) {
+        this.web_icon = web_icon;
+    }
+
+    public String getHeading() {
+        return heading;
+    }
+
+    public void setHeading(String heading) {
+        this.heading = heading;
+    }
+
+    public String getHeading_description() {
+        return heading_description;
+    }
+
+    public void setHeading_description(String heading_description) {
+        this.heading_description = heading_description;
+    }
 
     public String getHead_office() {
         return head_office;
